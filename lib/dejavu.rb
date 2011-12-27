@@ -4,7 +4,7 @@ module Dejavu
   module ViewHelpers
     def saved_for_redisplay?(obj)
       obj_name = ActiveRecord::Base === obj ? obj.class.model_name.underscore : obj.to_s
-      flash.has_key?(:"saved_#{obj_name}_for_redisplay")
+      !!flash[:"saved_#{obj_name}_for_redisplay"]
     end
 
     def load_or_build_to_redisplay(obj)
