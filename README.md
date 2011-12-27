@@ -2,7 +2,7 @@ Dejavu
 ======
 
 Dejavu is a very small piece of software which lets you remember your object
-state after a failed POST action usign redirect. A typical Rails controller
+state after a failed POST action using redirect. A typical Rails controller
 `create` action looks like this:
 
 ```
@@ -45,7 +45,7 @@ Usage
 =====
 
 If you want to use Dejavu, simply add a `save_for_dejavu` call in the
-controller:
+controller and issue a redirect instead of a render:
 
     respond_to do |format|
       if @product.save
