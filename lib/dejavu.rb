@@ -2,16 +2,16 @@ require "dejavu/version"
 
 module Dejavu
   module ViewHelpers
-    def saved_for_redisplay?(obj)
+    def has_dejavu?(obj)
       obj_name = ActiveRecord::Base === obj ? obj.class.model_name.underscore : obj.to_s
       !!flash[:"saved_#{obj_name}_for_redisplay"]
     end
 
-    def load_or_build_to_redisplay(obj)
+    def get_dejavu_for(obj)
       is_instance = ActiveRecord::Base === obj
       model_name = is_instance ? obj.class.model_name.underscore : obj.to_s
 
-      if saved_for_redisplay?(obj)
+      if has_dejavu?(obj)
         foo = if is_instance
                 obj.attributes = flash[:"saved_#{model_name}_for_redisplay"]
                 obj
@@ -27,7 +27,7 @@ module Dejavu
   end
 
   module ControllerMethods
-    def save_for_redisplay(obj)
+    def save_for_dejavu(obj)
       flash[:"saved_#{obj.class.model_name.underscore}_for_redisplay"] = obj.attributes
     end
   end

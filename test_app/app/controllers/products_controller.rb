@@ -47,7 +47,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render json: @product, status: :created, location: @product }
       else
-        save_for_redisplay @product
+        save_for_dejavu @product
         format.html { redirect_to new_product_url }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
@@ -64,7 +64,8 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render action: "edit" }
+        save_for_dejavu @product
+        format.html { redirect_to edit_product_url }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
     end
