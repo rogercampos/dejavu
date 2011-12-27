@@ -16,4 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = Dejavu::VERSION
 
   gem.add_dependency "rails", ">= 3.0"
+  gem.add_development_dependency "rspec-rails", ">= 2.7"
+  gem.add_development_dependency "capybara", ">= 1.1.1"
 end
