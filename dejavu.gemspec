@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "dejavu"
   gem.require_paths = ["lib"]
   gem.version       = Dejavu::VERSION
+
+  gem.add_dependency "rails", ">= 3.0"
 end
