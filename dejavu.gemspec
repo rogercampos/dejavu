@@ -4,9 +4,9 @@ require File.expand_path('../lib/dejavu/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Roger Campos"]
   gem.email         = ["roger@itnig.net"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Remember your object after a redirect}
+  gem.summary       = %q{Remember your object after a redirect}
+  gem.homepage      = "https://github.com/rogercampos/dejavu"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
