@@ -24,14 +24,17 @@ state after a failed POST action usign redirect. A typical Rails controller
 ```
 
 But this approach has some disadvantadges:
+
   - Implicitly rendering the view of another action may be difficult if more
     information is needed. If the original 'new' action also loads a
     bunch of `@banners` objects, for instance, we must do it here too. Then we
     have to mantain the same code in two different places or work out some
     sort of DRY solution.
+
   - It might happen that an exactly "new" view for that model doesn't make
     sense. If it's edited and/or created from different places, for example,
     we have no 'new' to render.
+
   - Lastly, the url shown is the POST url, which it's very confusing to the
     users since he/she will see the same url as the "index" page (GET) for
     that model. How it's possible that I see two different things for the
