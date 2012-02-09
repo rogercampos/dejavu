@@ -65,6 +65,20 @@ Then, in the view load the object in the form usign the `get_dejavu_for`:
     <% end %>
 
 
+Nested Attributes
+-----------------
+
+You can also use dejavu to recreate a one-to-one associated model in your
+form. To do so you must tell dejavu which association to save in the
+controller:
+
+    save_for_dejavu @product, :nested => :prices
+
+This will assume you have a `Product` class which has a `:has_one` association
+to a `Price` class.
+
+
+
 Final notes
 ===========
 
