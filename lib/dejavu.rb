@@ -31,8 +31,12 @@ module Dejavu
   end
 
   module ControllerMethods
-    def save_for_dejavu(obj)
-      flash[:"saved_#{obj.class.model_name.underscore}_for_redisplay"] = obj.attributes
+    def save_for_dejavu(obj, opts = {})
+      attrs = obj.attributes
+      if opts[:nested]
+        attrs["#{opts[:nested]}_attributes"] = obj.send(opts[:nested]).attributes
+      end
+      flash[:"saved_#{obj.class.model_name.underscore}_for_redisplay"] = attrs
     end
   end
 end
