@@ -78,6 +78,21 @@ This will assume you have a `Product` class which has a `:has_one` association
 to a `Price` class.
 
 
+Excluding some errors
+---------------------
+
+When using dejavu with a registration form, for example, you might find
+yourself in the need of avoid some errors in the model. For example, if the
+form is to create a new user and you're using Devise, you problably want to
+exclude the `:password` field to be reconstructed. Otherwise the form will
+always show an error saying "Password can't be blank".
+
+To fix this kind of situations, you can use `get_dejavu_for` this way:
+
+    = form_for get_dejavu_for(@user, :exclude_errors_on => :password) do |f|
+
+This will remove all possible errors in the `:password` field.
+
 
 Final notes
 ===========

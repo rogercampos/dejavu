@@ -7,7 +7,7 @@ module Dejavu
       !!flash[:"saved_#{obj_name}_for_redisplay"]
     end
 
-    def get_dejavu_for(obj)
+    def get_dejavu_for(obj, opts = {})
       is_instance = ActiveRecord::Base === obj
       model_name = is_instance ? obj.class.model_name.underscore : obj.to_s
 
@@ -23,6 +23,13 @@ module Dejavu
                 obj.to_s.classify.constantize.new flash[:"saved_#{model_name}_for_redisplay"]
               end
         foo.valid?
+
+        if opts[:exclude_errors_on]
+          [opts[:exclude_errors_on]].flatten.each do |attr|
+            foo.errors.delete(attr)
+          end
+        end
+
         foo
       else
         is_instance ? obj : obj.to_s.classify.constantize.new
