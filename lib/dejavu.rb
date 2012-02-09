@@ -13,7 +13,11 @@ module Dejavu
 
       if has_dejavu?(obj)
         foo = if is_instance
-                obj.attributes = flash[:"saved_#{model_name}_for_redisplay"]
+                if Rails::VERSION::MINOR >= 1
+                  obj.assign_attributes(flash[:"saved_#{model_name}_for_redisplay"], :without_protection => true)
+                else
+                  obj.attributes = flash[:"saved_#{model_name}_for_redisplay"]
+                end
                 obj
               else
                 obj.to_s.classify.constantize.new flash[:"saved_#{model_name}_for_redisplay"]
