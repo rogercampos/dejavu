@@ -40,10 +40,24 @@ module Dejavu
   module ControllerMethods
     def save_for_dejavu(obj, opts = {})
       attrs = obj.attributes
-      if opts[:nested]
-        attrs["#{opts[:nested]}_attributes"] = obj.send(opts[:nested]).attributes
+      if keys = opts[:nested]
+        keys = [keys] unless keys.is_a? Array
+        keys.each { |key| attrs = save_nested_for_dejavu(obj, key, attrs) }
       end
       flash[:"saved_#{obj.class.model_name.underscore}_for_redisplay"] = attrs
+    end
+
+    private
+
+    def save_nested_for_dejavu(obj, key, attrs)
+      value = obj.send(key)
+
+      attrs["#{key}_attributes"] = (value.is_a? Array) ?
+        value.map{ |vi| vi.attributes }
+        :
+        value.attributes
+
+      attrs
     end
   end
 end
