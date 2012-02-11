@@ -20,9 +20,15 @@
     <%= f.text_field :code %>
   </div>
   <div>
-    <%= f.fields_for :category do |cf| %>
-      <%= cf.label :category_name %>
-      <%= cf.text_field :name %>
+    <%= f.fields_for :category do |ctf| %>
+      <%= ctf.label :category_name %>
+      <%= ctf.text_field :name %>
+    <% end %>
+  </div>
+  <div>
+    <%= f.fields_for :colors do |clf| %>
+      <%= clf.label :color_name %>
+      <%= clf.text_field :name %>
     <% end %>
   </div>
   <div class="actions">
