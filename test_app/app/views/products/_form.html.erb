@@ -19,6 +19,12 @@
     <%= f.label :code %><br />
     <%= f.text_field :code %>
   </div>
+  <div>
+    <%= f.fields_for :category do |cf| %>
+      <%= cf.label :category_name %>
+      <%= cf.text_field :name %>
+    <% end %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
