@@ -25,6 +25,8 @@ class ProductsController < ApplicationController
   # GET /products/new.json
   def new
     @product = Product.new
+    @product.category = Category.new
+    @product.colors.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,7 +49,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render json: @product, status: :created, location: @product }
       else
-        save_for_dejavu @product
+        save_for_dejavu @product, :nested => [:category, :colors]
         format.html { redirect_to new_product_url }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
