@@ -52,10 +52,11 @@ module Dejavu
     def save_nested_for_dejavu(obj, key, attrs)
       value = obj.send(key)
 
-      attrs["#{key}_attributes"] = (value.is_a? Array) ?
-        value.map{ |vi| vi.attributes }
-        :
-        value.attributes
+      attrs["#{key}_attributes"] = if value.is_a? Array
+                                     value.map(&:attributes)
+                                   else
+                                     value.attributes
+                                   end
 
       attrs
     end
