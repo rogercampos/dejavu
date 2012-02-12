@@ -1,5 +1,6 @@
 Dejavu
 ======
+[![Build Status](https://secure.travis-ci.org/rogercampos/dejavu.png)](http://travis-ci.org/rogercampos/dejavu)
 
 Dejavu is a very small piece of software which lets you remember your object
 state after a failed POST action using redirect. A typical Rails controller
