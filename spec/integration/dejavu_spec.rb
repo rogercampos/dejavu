@@ -71,14 +71,21 @@ describe "Dejavu" do
       fill_in "Name", :with => "Mug"
       fill_in "Code", :with => "PT"
       fill_in "Virtual", :with => "ou"
-      click_button "Create Product"
     end
 
-    it "should be prefilled" do
+    it "should be prefilled on errors" do
+      click_button "Create Product"
       field_should_have "product_virtual", "ou"
     end
 
+    it "should be prefilled if the virtual attribute is ok but there is an error in the form" do
+      fill_in "Virtual", :with => "correct"
+      click_button "Create Product"
+      field_should_have "product_virtual", "correct"
+    end
+
     it "should show existing errors" do
+      click_button "Create Product"
       page.should have_content("Virtual is too short")
     end
   end

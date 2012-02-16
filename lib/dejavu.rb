@@ -40,13 +40,17 @@ module Dejavu
   module ControllerMethods
     def save_for_dejavu(obj, opts = {})
       attrs = obj.attributes
-
       missing_keys = obj.errors.keys.map(&:to_sym).select{|x| obj.respond_to?(x)} - attrs.keys.map(&:to_sym)
 
       if keys = opts[:nested]
-        keys = [keys] unless keys.is_a? Array
+        keys = [keys].flatten
         keys.each { |key| attrs = save_nested_for_dejavu(obj, key, attrs) }
         missing_keys -= keys.map(&:to_sym)
+      end
+
+      if virtual = opts[:virtual]
+        virtual = [virtual].flatten
+        missing_keys += virtual.select{|x| !missing_keys.include?(x)}
       end
 
       missing_keys.each do |key|

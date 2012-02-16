@@ -49,7 +49,7 @@ class ProductsController < ApplicationController
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render json: @product, status: :created, location: @product }
       else
-        save_for_dejavu @product, :nested => [:category, :colors]
+        save_for_dejavu @product, :nested => [:category, :colors], :virtual => :virtual
         format.html { redirect_to new_product_url }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
