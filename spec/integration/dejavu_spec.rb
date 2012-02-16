@@ -35,7 +35,7 @@ describe "Dejavu" do
 
   describe "update" do
     before do
-      @p = Product.create! :name => "A mug", :code => "PX54", :category => (Category.create! :name => "Mugs")
+      @p = Product.create! :virtual => "foo", :name => "A mug", :code => "PX54", :category => (Category.create! :name => "Mugs")
       Color.create! :name => "Blue", :product => @p
 
       visit edit_product_path(@p)
@@ -62,6 +62,24 @@ describe "Dejavu" do
 
     it "should have the one-to-many association prefilled with the previously entered values" do
       field_should_have "product_colors_attributes_0_name", "Blue"
+    end
+  end
+
+  describe "virtual attributes" do
+    before do
+      visit new_product_path
+      fill_in "Name", :with => "Mug"
+      fill_in "Code", :with => "PT"
+      fill_in "Virtual", :with => "ou"
+      click_button "Create Product"
+    end
+
+    it "should be prefilled" do
+      field_should_have "product_virtual", "ou"
+    end
+
+    it "should show existing errors" do
+      page.should have_content("Virtual is too short")
     end
   end
 end
