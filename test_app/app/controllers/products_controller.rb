@@ -34,6 +34,15 @@ class ProductsController < ApplicationController
     end
   end
 
+  def new_only_name
+    @product = Product.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @product }
+    end
+  end
+
   # GET /products/1/edit
   def edit
     @product = Product.find(params[:id])
@@ -51,6 +60,21 @@ class ProductsController < ApplicationController
       else
         save_for_dejavu @product, :nested => [:category, :colors], :virtual => :virtual
         format.html { redirect_to new_product_url }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_only_name
+    @product = Product.new(params[:product])
+
+    respond_to do |format|
+      if @product.save
+        format.html { redirect_to :back, notice: 'Product was successfully created.' }
+        format.json { render json: @product, status: :created, location: @product }
+      else
+        save_for_dejavu @product, :only => [:name]
+        format.html { redirect_to :back }
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
     end

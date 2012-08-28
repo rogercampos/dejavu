@@ -89,4 +89,27 @@ describe "Dejavu" do
       page.should have_content("Virtual is too short")
     end
   end
+
+  describe "only option" do
+    it "should not remember errors on code" do
+      visit new_only_name_products_path
+
+      fill_in "Create only: name", :with => "Mug"
+      fill_in "Create only: code", :with => "PT"
+      click_button "Create only name"
+
+      # Blank error is still there because we don't reset the PT
+      page.should have_content("Code can't be blank")
+    end
+
+    it "should remember errors on name" do
+      visit new_only_name_products_path
+
+      fill_in "Create only: name", :with => "pt"
+      fill_in "Create only: code", :with => "PTujarsa"
+      click_button "Create only name"
+
+      page.should have_no_content("Name can't be blank")
+    end
+  end
 end

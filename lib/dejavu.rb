@@ -39,7 +39,12 @@ module Dejavu
 
   module ControllerMethods
     def save_for_dejavu(obj, opts = {})
-      attrs = obj.attributes
+      attrs = if opts[:only] && opts[:only].is_a?(Array)
+        obj.attributes.slice(*opts[:only].map(&:to_s))
+      else
+        obj.attributes
+      end
+
       missing_keys = []
 
       if keys = opts[:nested]
