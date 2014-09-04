@@ -3,16 +3,14 @@ require "dejavu/version"
 module Dejavu
   module ViewHelpers
     def has_dejavu?(obj)
-      obj_name = ActiveRecord::Base === obj ? obj.class.model_name.underscore : obj.to_s
-      !!flash[:"saved_#{obj_name}_for_redisplay"]
+      !!flash[:"saved_#{object_name(obj)}_for_redisplay"]
     end
 
     def get_dejavu_for(obj, opts = {})
-      is_instance = ActiveRecord::Base === obj
-      model_name = is_instance ? obj.class.model_name.underscore : obj.to_s
+      model_name = object_name(obj)
 
       if has_dejavu?(obj)
-        foo = if is_instance
+        foo = if is_instance?(obj)
                 if Rails::VERSION::MINOR >= 1
                   obj.assign_attributes(flash[:"saved_#{model_name}_for_redisplay"], :without_protection => true)
                 else
@@ -32,8 +30,16 @@ module Dejavu
 
         foo
       else
-        is_instance ? obj : obj.to_s.classify.constantize.new
+        is_instance?(obj) ? obj : obj.to_s.classify.constantize.new
       end
+    end
+
+    def is_instance?(obj)
+      ActiveRecord::Base === obj
+    end
+
+    def object_name(obj)
+      (is_instance?(obj) ? obj.class.model_name : obj).to_s.underscore
     end
   end
 
@@ -55,7 +61,7 @@ module Dejavu
         attrs[key] = obj.send(key)
       end
 
-      flash[:"saved_#{obj.class.model_name.underscore}_for_redisplay"] = attrs
+      flash[:"saved_#{object_name(obj)}_for_redisplay"] = attrs
     end
 
     private
